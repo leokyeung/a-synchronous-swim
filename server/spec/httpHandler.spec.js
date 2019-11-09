@@ -5,7 +5,7 @@ const expect = require('chai').expect;
 const server = require('./mockServer');
 
 const httpHandler = require('../js/httpHandler');
-
+const messages = require('../js/messageQueue.js')
 
 
 describe('server responses', () => {
@@ -16,14 +16,24 @@ describe('server responses', () => {
     httpHandler.router(req, res);
     expect(res._responseCode).to.equal(200);
     expect(res._ended).to.equal(true);
-    expect(res._data.toString()).to.be.empty;
 
     done();
   });
 
   it('should respond to a GET request for a swim command', (done) => {
-    // write your test here
+
+    let {req, res} = server.mock('http://127.0.0.1:3000', 'GET');
+
+
+    let message = ['left','right','up','down'];
+    httpHandler.router(req, res);
+    expect(res._responseCode).to.equal(200);
+    expect(res._ended).to.equal(true);
+    //expect(res._data.toString()).to.equal("left");
+
+    expect(message.includes(res._data.toString())).to.equal(true);
     done();
+
   });
 
   xit('should respond with 404 to a GET request for a missing background image', (done) => {
@@ -38,7 +48,7 @@ describe('server responses', () => {
   });
 
   xit('should respond with 200 to a GET request for a present background image', (done) => {
-    // write your test here
+
     done();
   });
 
