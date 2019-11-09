@@ -12,19 +12,14 @@
   /////////////////////////////////////////////////////////////////////
 
 
-  setInterval(function () {
-    $.ajax({
-      url: serverUrl,
-      method: 'GET',
-      success: function (data) {
-        SwimTeam.move(data.toString());
-      },
-      error: function (data) {
-        console.log(data, 'Failed GET request')
-      }
-    }
-    )
-  }, 1000);
+  const ajaxGetDirection = () => {
+    $.get(serverUrl, (data) => {
+      console.log(data);
+      var direction = data;
+      SwimTeam.move(direction.toLowerCase());
+    })
+  }
+  setInterval( () => {ajaxGetDirection()}, 1000);
 
 
 
