@@ -15,13 +15,31 @@ module.exports.initialize = (queue) => {
 
 module.exports.router = (req, res, next = ()=>{}) => {
   console.log('Serving request type ' + req.method + ' for url ' + req.url);
-  function getRandomInt(max) {
-    return Math.floor(Math.random() * Math.floor(max));
-  }
-  let message = ["left", "right", "up", "down"]
 
-  res.writeHead(200, headers);
+    let message = ["left", "right", "up", "down"]
 
-  res.end(message[getRandomInt(4)]);
-  next(); // invoke next() at the end of a request to help with testing!
-};         
+    function getRandomInt(max) {
+      return Math.floor(Math.random() * Math.floor(max));
+    }
+
+    if (req.url === '/background.jpg') {
+      fs.readFile(module.exports.backgroundImageFile, (err, data) => {
+        if (err) {
+          res.writeHead(404, headers);
+        } else {
+          res.writeHead(200, headers);
+          res.end(message[getRandomInt(4)])
+          next()
+        }
+      });
+    }
+
+
+
+  // res.writeHead(200, headers);
+  // res.end(message[getRandomInt(4)]);
+  // next();
+
+
+
+};
