@@ -17,8 +17,6 @@
       url: serverUrl,
       method: 'GET',
       success: function (data) {
-        //console.log('success', data)
-        //console.log(data.toString());
         SwimTeam.move(data.toString());
       },
       error: function (data) {

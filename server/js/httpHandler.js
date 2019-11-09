@@ -14,32 +14,37 @@ module.exports.initialize = (queue) => {
 };
 
 module.exports.router = (req, res, next = ()=>{}) => {
-  console.log('Serving request type ' + req.method + ' for url ' + req.url);
+  // console.log('Serving request type ' + req.method + ' for url ' + req.url);
 
-    let message = ["left", "right", "up", "down"]
+  //   let message = ["left", "right", "up", "down"]
 
-    function getRandomInt(max) {
-      return Math.floor(Math.random() * Math.floor(max));
+  //   function getRandomInt(max) {
+  //     return Math.floor(Math.random() * Math.floor(max));
+  //   }
+
+    if (fs.existsSync(req.url)){
+      //res.writeHead(404, headers);
+    } else {
+      res.writeHead(404, headers);
+      res.end();
     }
-
-    if (req.url === '/background.jpg') {
-      fs.readFile(module.exports.backgroundImageFile, (err, data) => {
-        if (err) {
-          res.writeHead(404, headers);
-        } else {
-          res.writeHead(200, headers);
-          res.end(message[getRandomInt(4)])
-          next()
-        }
-      });
-    }
+    // if (req.url === '/background.jpg') {
+    //   fs.readFile(module.exports.backgroundImageFile, (err, data) => {
+    //     if (err) {
+    //       res.writeHead(404, headers);
+    //     } else {
+    //       res.writeHead(200, headers);
+    //       res.end(message[getRandomInt(4)])
+    //       next()
+    //     }
+    //   });
+    // }
 
 
 
   // res.writeHead(200, headers);
   // res.end(message[getRandomInt(4)]);
   // next();
-
 
 
 };
