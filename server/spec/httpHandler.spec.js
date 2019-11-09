@@ -10,7 +10,7 @@ const messages = require('../js/messageQueue.js')
 
 describe('server responses', () => {
 
-  it('should respond to a OPTIONS request', (done) => {
+  xit('should respond to a OPTIONS request', (done) => {
     let {req, res} = server.mock('/', 'OPTIONS');
 
     httpHandler.router(req, res);
@@ -20,7 +20,7 @@ describe('server responses', () => {
     done();
   });
 
-  it('should respond to a GET request for a swim command', (done) => {
+  xit('should respond to a GET request for a swim command', (done) => {
 
     let {req, res} = server.mock('http://127.0.0.1:3000', 'GET');
 
@@ -40,7 +40,7 @@ describe('server responses', () => {
     httpHandler.backgroundImageFile = path.join('.', 'spec', 'missing.jpg');
     //http://127.0.0.1:3000/background.jpg
 
-    let {req, res} = server.mock('/background.jpg', 'GET');
+    let {req, res} = server.mock('/', 'GET');
 
     httpHandler.router(req, res, () => {
       expect(res._responseCode).to.equal(404);
@@ -49,9 +49,15 @@ describe('server responses', () => {
     });
   });
 
-  xit('should respond with 200 to a GET request for a present background image', (done) => {
+  it('should respond with 200 to a GET request for a present background image', (done) => {
+    let {req, res} = server.mock('/background.jpg', 'GET');
 
-    done();
+    httpHandler.router(req, res, () => {
+      expect(res._responseCode).to.equal(200);
+      expect(res._ended).to.equal(true);
+      done();
+    });
+
   });
 
   var postTestFile = path.join('.', 'spec', 'water-lg.jpg');

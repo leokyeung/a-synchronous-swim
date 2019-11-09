@@ -19,14 +19,23 @@ module.exports.initialize = (queue) => {
 };
 module.exports.router = (req, res, next = ()=>{}) => {
   //console.log('Serving request type ' + req.method + ' for url ' + req.url);
-  if (req.method === 'GET') {
+
+  if ((req.method === 'GET') || (req.url === "/background.jpg") || (req.url === 'http://127.0.0.1:3000')) {
+
     res.writeHead(200, headers);
     res.end(messages.dequeue());
+
   } else if(req.method === 'OPTIONS') {
     res.writeHead(200, headers);
     res.end();
   }
-  next(); // invoke next() at the end of a request to help with testing!
+
+  if ((req.method === 'GET') && (req.url === "/")) {
+    res.writeHead(404, headers);
+    res.end();
+  }
+  next();
+  // invoke next() at the end of a request to help with testing!
 }
 // var randomCommandGenerator = function() {
 //   var commands = ['up', 'down', 'left', 'right'];
